@@ -6,8 +6,6 @@ UML
 - Hay relaciones que no tienen el mismo nombre que en el codigo.
 
 POO
-- Podrian haber modelado la Posicion, para delegar en ella las modificaciones y no tener que repeitr el +/- 1 que hacen a posX o posY.
-- Seria mejor que decidir demoler de Raph este dentro del mover, asi el juego solamente debe concer un metodo a llamar.
 - Ralph no necesita tener un atributo para los ladrillos, dado que los crea en el momento.
 - La jerarquia de Entidad tiene subclases que no deberian ir, dado que no necesitan posicion, como Edificio, Moldura, etc.
 - Tendrian que aprovechar mas la jerarquia de Individuo para tratar de manejar todos de la misma forma. Tambien podrian incorporar al Nicelander.
@@ -19,17 +17,9 @@ Sintaxis Java
 - No usar tildes ni ñ en las variables, metodos, etc.
 - Todos las variables deben comenzar con minuscula.
 - Deberian usar un enumerativo para la direccion de felix.
-- Eviten dejar comentarios como "ACCION DE MARTILLAR LOS HUEVOS".
-- Dentro de juego el acceso al singleton puede ser directamen te con la variable de la instancia, asi no lo mandan como parametro.
-- Deberian usar la misma implementacion de repararVentana recorriedno la coleccion para todos los casos.
-- Tienen un constructor de Seccion con codigo repetido que no se usa.
-- Deberian usar el EstadoSeccion para saber que seccion crear en lugar del k.
 
 Funcionamiento
-- El repararVentana esta mal implementado.
-- Esta mal como remueven los ladrillos de la coleccion.
 - No esta implementado el manejo de los pajaros.
 - Tampoco esta completo el manejo de los niveles o de secciones.
 - No estan los obstaculos implementados, ni el Nicelander con el Pastel.
 - No estan implementadas las colisiones que no son la simulada.
-- Esta mal manejada la probabilidad de paneles rotos, genera todos los paneles iguales.
