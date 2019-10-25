@@ -6,20 +6,13 @@ UML
 - Hay relaciones que no tienen el mismo nombre que en el codigo.
 
 POO
-- Ralph no necesita tener un atributo para los ladrillos, dado que los crea en el momento.
-- La jerarquia de Entidad tiene subclases que no deberian ir, dado que no necesitan posicion, como Edificio, Moldura, etc.
-- Tendrian que aprovechar mas la jerarquia de Individuo para tratar de manejar todos de la misma forma. Tambien podrian incorporar al Nicelander.
 
 Documentacion
 - Exportaron el javadoc pero no pusieron comentarios con la sintaxis que corresponde.
            
 Sintaxis Java
-- No usar tildes ni ñ en las variables, metodos, etc.
-- Todos las variables deben comenzar con minuscula.
-- Deberian usar un enumerativo para la direccion de felix.
 
 Funcionamiento
 - No esta implementado el manejo de los pajaros.
 - Tampoco esta completo el manejo de los niveles o de secciones.
 - No estan los obstaculos implementados, ni el Nicelander con el Pastel.
-- No estan implementadas las colisiones que no son la simulada.
