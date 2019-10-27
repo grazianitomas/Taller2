@@ -88,42 +88,49 @@ public class Juego {
 	public static void main(String[] args) {
 		jugarFixItFelixJr();
 	}
-	
+
 	/*
-	 *  Se ejecuta el juego, a cambiar por el loop cuando se implementen las teclas y demas
+	 * Se ejecuta el juego, a cambiar por el loop cuando se implementen las teclas y
+	 * demas
 	 */
 	private static void jugarFixItFelixJr() {
 		while (getGame().felix.getVidas() > 0) {
 			getGame().setSeccion(0);
 			getGame().actualizar();
 			martillazo();
+			verificarPasajeDeNivel();
 			moverDerecha();
 			if (colisionar())
 				continue;
 			martillazo();
+			verificarPasajeDeNivel();
 			moverDerecha();
 			getGame().actualizar();
 			sacarLadrillos();
 			if (colisionar())
 				continue;
 			martillazo();
+			verificarPasajeDeNivel();
 			moverArriba();
 			getGame().actualizar();
 			for (int i = 0; i < 4; i++) {
 				moverIzquierda();
 				martillazo();
+				verificarPasajeDeNivel();
 				sacarLadrillos();
 				getGame().actualizar();
 				if (colisionar())
 					continue;
 			}
 			martillazo();
+			verificarPasajeDeNivel();
 			moverArriba();
 			getGame().actualizar();
 			sacarLadrillos();
 			if (colisionar())
 				continue;
 			martillazo();
+			verificarPasajeDeNivel();
 			moverArriba();
 			sacarLadrillos();
 			getGame().setSeccion(1);
@@ -133,6 +140,7 @@ public class Juego {
 				continue;
 			for (int i = 0; i < 4; i++) {
 				martillazo();
+				verificarPasajeDeNivel();
 				moverDerecha();
 				getGame().actualizar();
 				sacarLadrillos();
@@ -141,6 +149,7 @@ public class Juego {
 					continue;
 			}
 			martillazo();
+			verificarPasajeDeNivel();
 			moverArriba();
 			getGame().actualizar();
 			sacarLadrillos();
@@ -172,11 +181,11 @@ public class Juego {
 		for (Individuo I : getGame().individuos)
 			I.actualizar();
 	}
-	
+
 	/*
 	 * Verifica si se puede pasar de nivel
 	 */
-	private void verificarPasajeDeNivel() {
+	private static void verificarPasajeDeNivel() {
 		if (getGame().pasarNivel() && getGame().nivel.getNivelActual().equals(Niveles.NIVEL5)) {
 			getGame().pasarSeccion();
 		} else
