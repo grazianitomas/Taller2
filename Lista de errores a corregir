@@ -13,6 +13,6 @@ Documentacion
 Sintaxis Java
 
 Funcionamiento
-- No esta implementado el manejo de los pajaros.
-- Tampoco esta completo el manejo de los niveles o de secciones.
-- No estan los obstaculos implementados, ni el Nicelander con el Pastel.
+- No estan los obstaculos implementados, ni el Nicelander con el Pastel.     
+- Verificar si la verificación de si Felix se puede mover es la correcta.
+- Preguntar como funciona el actualizar de felix
