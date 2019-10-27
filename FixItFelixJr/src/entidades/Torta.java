@@ -27,17 +27,6 @@ public class Torta extends Individuo {
 		this.torta = torta;
 	}
 
-	/*
-	 * Verifica si colisiona con Felix
-	 */
-	@Override
-	public boolean colision() {
-		if (this.getUbicacion().equals(Juego.getGame().ubicacionFelix()))
-			return true;
-		else
-			return false;
-	}
-
 	@Override
 	public void actualizar() {
 		// TODO Auto-generated method stub

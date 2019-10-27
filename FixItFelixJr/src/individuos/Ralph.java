@@ -103,14 +103,6 @@ public class Ralph extends Individuo {
 
 	}
 
-	/**
-	 * Ésta colisión no se implementa en Ralph
-	 */
-	@Override
-	public boolean colision() {
-		return false;
-	}
-
 	/*
 	 * DEVUELVE LA POSICION DE RALPH ACTUAL
 	 */

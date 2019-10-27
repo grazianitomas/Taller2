@@ -149,20 +149,13 @@ public class FelixJr extends Individuo {
 		this.setPuntaje(this.getPuntaje() + vent.repararVentana());
 	}
 
-	/**
-	 * Verifica si colisiona con algo
-	 */
-	public boolean colision() {
-		return false;
-	}
-
 	/*
 	 * Actualiza el estado de Felix
 	 * 
 	 */
 	@Override
 	public void actualizar() {
-		// this.mover(direc);
+		//this.mover(direc);
 
 	}
 

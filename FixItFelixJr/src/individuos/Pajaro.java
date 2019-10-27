@@ -62,15 +62,4 @@ public class Pajaro extends Individuo {
 		this.setPosX(this.getPosX() + 1);
 	}
 
-	/*
-	 * SIMULARÍA LA COLISIÓN ENTRE PÁJARO Y FELIX
-	 */
-	@Override
-	public boolean colision() {
-		if(this.getUbicacion().equals(Juego.getGame().ubicacionFelix()))
-			return true;
-		else 
-			return false;
-	}
-
 }

@@ -151,12 +151,12 @@ public abstract class Ventana {
 	 */
 	public boolean puedeMoverse(DireccionFelix direc) {
 		if (direc.equals(DireccionFelix.ARRIBA)) {
-			if (!this.getMoldura().getHay()) {
+			if (!this.getMoldura().equals(null)) {
 				return true;
 			} else
 				return false;
 		} else {
-			if (!this.getMaceta().getHay()) {
+			if (!this.getMaceta().equals(null)) {
 				return true;
 			} else
 				return false;

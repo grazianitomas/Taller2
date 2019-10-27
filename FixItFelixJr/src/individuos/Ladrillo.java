@@ -34,15 +34,4 @@ public class Ladrillo extends Individuo {
 	public void actualizar() {
 		this.setPosX(this.getPosX() + 1);
 	}
-
-	/**
-	 * Verifica si colisiona con Felix
-	 */
-	@Override
-	public boolean colision() {
-		if (this.getUbicacion().equals(Juego.getGame().ubicacionFelix()))
-			return true;
-		else
-			return false;
-	}
 }

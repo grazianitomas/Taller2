@@ -238,7 +238,7 @@ public class Juego {
 	public static boolean colisionar() {
 		Torta cake = new Torta();
 		for (Individuo i : getGame().individuos) {
-			if (i.colision()) {
+			if (i.colision(getGame().felix.getUbicacion())) {
 				if (i.equals(cake))
 					getGame().felix.setInvulnerabilidad(true);
 				else {

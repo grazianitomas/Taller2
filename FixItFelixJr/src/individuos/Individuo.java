@@ -7,23 +7,27 @@ public abstract class Individuo {
 	 * Corresponde a la velocidad del objetivo
 	 */
 	private double velocidad;
-	
+
 	private Posicion ubicacion;
-	
+
 	/**
 	 * Retorna la ubicación del individuo
+	 * 
 	 * @return
 	 */
 	public Posicion getUbicacion() {
 		return ubicacion;
 	}
+
 	/**
 	 * Setea la ubicación del individuo
+	 * 
 	 * @param ubicacion
 	 */
 	public void setUbicacion(Posicion ubicacion) {
 		this.ubicacion = ubicacion;
 	}
+
 	/**
 	 * Constructor de individuo
 	 */
@@ -48,6 +52,7 @@ public abstract class Individuo {
 
 	/**
 	 * Retorna la velocidad actual
+	 * 
 	 * @return
 	 */
 	public double getVelocidad() {
@@ -60,33 +65,37 @@ public abstract class Individuo {
 	public void setVelocidad(double V) {
 		velocidad = V;
 	}
-	
+
 	/**
 	 * Setea la posición en [X] del individuo
+	 * 
 	 * @param x
 	 */
 	public void setPosX(int x) {
 		this.ubicacion.setPosX(x);
 	}
-	
+
 	/**
 	 * Setea la posición en [Y] del individuo
+	 * 
 	 * @param y
 	 */
 	public void setPosY(int y) {
 		this.ubicacion.setPosY(y);
 	}
-	
+
 	/**
 	 * Retorna la posición en [x] de individuo
+	 * 
 	 * @return
 	 */
 	public int getPosX() {
 		return this.ubicacion.getPosX();
 	}
-	
+
 	/**
 	 * Retorna la posición en [y] de individuo
+	 * 
 	 * @return
 	 */
 	public int getPosY() {
@@ -94,10 +103,16 @@ public abstract class Individuo {
 	}
 
 	/**
-	 *	Verifica si hay colisión entre Felix y el individuo 
+	 * Verifica si hay colisión entre Felix y el individuo
+	 * 
 	 * @return
 	 */
-	public abstract boolean colision();
+	public boolean colision(Posicion p) {
+		if (this.getUbicacion().equals(p))
+			return true;
+		else
+			return false;
+	}
 
 	/**
 	 * Actualiza el estado del individuo
