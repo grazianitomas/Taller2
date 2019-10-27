@@ -2,46 +2,73 @@ package controladores;
 
 import java.util.ArrayList;
 
+import entidades.Posicion;
+import entidades.Torta;
+import individuos.DireccionFelix;
 import individuos.FelixJr;
+import individuos.Individuo;
 import individuos.Ladrillo;
 import individuos.Pajaro;
 import individuos.Ralph;
 import niceland.Edificio;
+import ventanas.Ventana;
 
 public class Juego {
 
 	private FelixJr felix;
 	private Edificio niceland;
-	private Ralph ralf;
-	private Pajaro bird;
-	private static Niveles nivel;
+	private Nivel nivel;
 	private int seccionActual;
 	private static Juego game = new Juego();
 	private ArrayList<Ladrillo> ladrillos = new ArrayList<Ladrillo>();
+	private ArrayList<Individuo> individuos = new ArrayList<Individuo>();
+	private ArrayList<Pajaro> pajaros = new ArrayList<Pajaro>();
 
 	public static Juego getGame() {
 		return game;
 	}
 
-	// AGREGA UN LADRILLO A LA ARRAYLIST
+	/**
+	 * AGREGA UN LADRILLO A LA ARRAYLIST
+	 * 
+	 * @param L
+	 */
 	public void agregarLadrillo(Ladrillo L) {
 		ladrillos.add(L);
 	}
 
-	// SE INSTANCIA EL JUEGO
+	public Edificio getNiceland() {
+		return this.niceland;
+	}
+
+	/**
+	 * SE INSTANCIA EL JUEGO
+	 */
 	private Juego() {
 		System.out.println("Se inicia el juego");
-		this.bird = new Pajaro();
-		this.nivel = Niveles.NIVEL1;
-		this.niceland = new Edificio();
+		this.nivel = new Nivel();
 		this.seccionActual = 0;
-		this.ralf = new Ralph();
+		this.niceland = new Edificio();
+		/**
+		 * Al iniciar los individuos de ésta manera no necesito tener una instancia
+		 */
+		individuos.add(new Pajaro());
+		individuos.add(new Ralph());
 		this.felix = new FelixJr(2, 2);
 	}
 
-	// INSTANCIA LA SECCIÓN ACTUAL
+	/**
+	 * INSTANCIA LA SECCIÓN ACTUAL
+	 * 
+	 * @param i
+	 */
 	public void setSeccion(int i) {
 		this.seccionActual = i;
+
+	}
+
+	public void setIndividuo(Individuo I) {
+		this.individuos.add(I);
 	}
 
 	// DEVUELVE LA SECCIÓN ACTUAL
@@ -53,84 +80,75 @@ public class Juego {
 		return this.seccionActual;
 	}
 
-	// SE EJECUTA EL JUEGO
 	/**
+	 * SE EJECUTA EL Main
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Juego Juegaso = Juego.getGame();
-
-		while (Juegaso.felix.getVidas() > 0) {
-			Juegaso.setSeccion(0);
-			for (int i = 0; i < 4; i++)
-				martillazo(Juegaso);
-			moverDerecha(Juegaso);
-			Juegaso.ralf.actualizar();
-			Juegaso.ralf.demoler();
-			moverLadrillos(Juegaso);
-			if (colisionar(Juegaso))
+		jugarFixItFelixJr();
+	}
+	
+	/*
+	 *  Se ejecuta el juego, a cambiar por el loop cuando se implementen las teclas y demas
+	 */
+	private static void jugarFixItFelixJr() {
+		while (getGame().felix.getVidas() > 0) {
+			getGame().setSeccion(0);
+			getGame().actualizar();
+			martillazo();
+			moverDerecha();
+			if (colisionar())
 				continue;
-			for (int i = 0; i < 4; i++)
-				martillazo(Juegaso);
-			Juegaso.ralf.actualizar();
-			Juegaso.ralf.demoler();
-			moverDerecha(Juegaso);
-			moverLadrillos(Juegaso);
-			if (colisionar(Juegaso))
+			martillazo();
+			moverDerecha();
+			getGame().actualizar();
+			sacarLadrillos();
+			if (colisionar())
 				continue;
-			for (int i = 0; i < 4; i++)
-				martillazo(Juegaso);
-			moverArriba(Juegaso);
-			Juegaso.ralf.actualizar();
+			martillazo();
+			moverArriba();
+			getGame().actualizar();
 			for (int i = 0; i < 4; i++) {
-				for (int j = 0; j < 4; j++)
-					martillazo(Juegaso);
-				moverIzquierda(Juegaso);
-				moverLadrillos(Juegaso);
-				Juegaso.ralf.actualizar();
-				if (colisionar(Juegaso))
+				moverIzquierda();
+				martillazo();
+				sacarLadrillos();
+				getGame().actualizar();
+				if (colisionar())
 					continue;
 			}
-			for (int i = 0; i < 4; i++)
-				martillazo(Juegaso);
-			Juegaso.ralf.actualizar();
-			Juegaso.ralf.demoler();
-			moverLadrillos(Juegaso);
-			moverArriba(Juegaso);
-			if (colisionar(Juegaso))
+			martillazo();
+			moverArriba();
+			getGame().actualizar();
+			sacarLadrillos();
+			if (colisionar())
 				continue;
-			for (int i = 0; i < 4; i++)
-				martillazo(Juegaso);
-			moverArriba(Juegaso);
-			moverLadrillos(Juegaso);
-			Juegaso.setSeccion(1);
-			Juegaso.felix.setPosX(2);
-			Juegaso.felix.setPosY(0);
-			if (colisionar(Juegaso))
+			martillazo();
+			moverArriba();
+			sacarLadrillos();
+			getGame().setSeccion(1);
+			getGame().felix.setPosX(2);
+			getGame().felix.setPosY(0);
+			if (colisionar())
 				continue;
 			for (int i = 0; i < 4; i++) {
-				for (int j = 0; j < 4; j++)
-					martillazo(Juegaso);
-				Juegaso.ralf.actualizar();
-				Juegaso.ralf.demoler();
-				moverLadrillos(Juegaso);
-				moverDerecha(Juegaso);
-				moverLadrillos(Juegaso);
-				if (colisionar(Juegaso))
+				martillazo();
+				moverDerecha();
+				getGame().actualizar();
+				sacarLadrillos();
+				sacarLadrillos();
+				if (colisionar())
 					continue;
 			}
-			for (int i = 0; i < 4; i++)
-				martillazo(Juegaso);
-			Juegaso.ralf.actualizar();
-			Juegaso.ralf.demoler();
-			moverArriba(Juegaso);
-			moverLadrillos(Juegaso);
-			if (colisionar(Juegaso))
+			martillazo();
+			moverArriba();
+			getGame().actualizar();
+			sacarLadrillos();
+			if (colisionar())
 				continue;
 			else {
-				Juegaso.felix.setPosX(2);
-				Juegaso.felix.setPosY(2);
+				getGame().felix.setPosX(2);
+				getGame().felix.setPosY(2);
 			}
 		}
 		try {
@@ -147,79 +165,150 @@ public class Juego {
 		System.out.println("OVER...");
 	}
 
-	// CHEQUEA SI SE REALIZA UNA COLISION ENTRE UN LADRILLO Y FELIX
-	private boolean colisionar() {
-		if (this.simularColision(this)) {
-			System.out.println("Un ladrillo ha colisionado con FelixJr");
-			this.felix = new FelixJr(2, 2);
-			if (this.felix.getVidas() > 0)
-				System.out.println("Felix aparece en la posición: [0][2]");
-			return true;
+	/**
+	 * Actualiza el estado de los objetos en cada instancia;
+	 */
+	private void actualizar() {
+		for (Individuo I : getGame().individuos)
+			I.actualizar();
+	}
+	
+	/*
+	 * Verifica si se puede pasar de nivel
+	 */
+	private void verificarPasajeDeNivel() {
+		if (getGame().pasarNivel() && getGame().nivel.getNivelActual().equals(Niveles.NIVEL5)) {
+			getGame().pasarSeccion();
 		} else
-			return false;
+			getGame().nivel.pasarNivel();
 	}
 
-	// ORDENA A FELIX A MOVERSE A LA IZQUIERDA SI SE PUEDE
-	private static void moverIzquierda(Juego Juegaso) {
-		Juegaso.felix.mover(3);
-		System.out.println("FelixJr se movio hacia la izquierda");
+	/**
+	 * ORDENA A FELIX A MOVERSE A LA IZQUIERDA SI SE PUEDE
+	 */
+	private static void moverIzquierda() {
+		getGame().felix.mover(DireccionFelix.IZQUIERDA);
 	}
 
-	// ORDENA A FELIX A MOVERSE A LA ARRIBA SI SE PUEDE
-	private static void moverArriba(Juego Juegaso) {
-		Juegaso.felix.mover(0);
-		System.out.println("FelixJr se movio hacia arriba");
+	/**
+	 * ORDENA A FELIX A MOVERSE A LA ARRIBA SI SE PUEDE
+	 */
+	private static void moverArriba() {
+		getGame().felix.mover(DireccionFelix.ARRIBA);
 	}
 
-	// ORDENA A FELIX A MOVERSE A LA DERECHA SI SE PUEDE
-	private static void moverDerecha(Juego Juegaso) {
-		Juegaso.felix.mover(1);
-		System.out.println("FelixJr se movio hacia la derecha");
+	/**
+	 * ORDENA A FELIX A MOVERSE A LA DERECHA SI SE PUEDE
+	 */
+	private static void moverDerecha() {
+		getGame().felix.mover(DireccionFelix.DERECHA);
 	}
 
-	// ORDENA A FELIX A MOVERSE A LA ABAJO SI SE PUEDE
-	private static void moverAbajo(Juego Juegaso) {
-		Juegaso.felix.mover(2);
-		System.out.println("FelixJr se movio hacia abajo");
+	/**
+	 * ORDENA A FELIX A MOVERSE A LA ABAJO SI SE PUEDE
+	 */
+	private static void moverAbajo() {
+		getGame().felix.mover(DireccionFelix.ABAJO);
 	}
 
-	// ORDENA A FELIX A DAR UN MARTILLAZO EN SU POSICIÓN
-	private static void martillazo(Juego Juegaso) {
-		Juegaso.felix.darMartillazo(Juegaso.niceland.getSecciones(Juegaso.getSeccion())
-				.getVentana(Juegaso.felix.getPosX(), Juegaso.felix.getPosY()));
-		System.out.println("FelixJr dio un martillazo");
+	/**
+	 * ORDENA A FELIX A DAR UN MARTILLAZO EN SU POSICIÓN
+	 */
+	private static void martillazo() {
+		for (int i = 0; i < 4; i++)
+			getGame().felix.darMartillazo(
+					getGame().niceland.getSecciones().getVentana(getGame().felix.getPosX(), getGame().felix.getPosY()));
+		System.out.println("FelixJr dio 4 martillazos");
 	}
 
-	// VERIFICA LA COLISION ENTRE FELIX Y ALGÚN LADRILLO
-	public boolean simularColision() {
-		boolean choque = false;
-		int i = 0;
-		while ((!choque) && (i < this.ladrillos.size())) {
-			if ((felix.getPosX() == game.ladrillos.get(i).getPosX())
-					&& (felix.getPosY() == game.ladrillos.get(i).getPosY())) {
-				choque = true;
+	/**
+	 * VERIFICA LA COLISION ENTRE FELIX Y ALGO
+	 * 
+	 * @return
+	 */
+	public static boolean colisionar() {
+		Torta cake = new Torta();
+		for (Individuo i : getGame().individuos) {
+			if (i.colision()) {
+				if (i.equals(cake))
+					getGame().felix.setInvulnerabilidad(true);
+				else {
+					if (getGame().felix.getVidas() > 0)
+						getGame().felix = new FelixJr(2, 2);
+				}
+				return true;
 			}
-			i++;
 		}
-		return choque;
+		return false;
 	}
 
-	// MUEVE LOS LADRILLOS Y VERIFICA QUE SI ALGUNO SE SALE DE LA MATRIZ DEL
-	// EDIFICIO, LOS ELIMINA
-	private static void moverLadrillos(Juego juegaso) {
-		int tamaño = juegaso.ladrillos.size();
+	/**
+	 * Retorna la posición actual de Felix
+	 * 
+	 * @return
+	 */
+	public Posicion ubicacionFelix() {
+		return getGame().felix.getUbicacion();
+	}
+
+	/**
+	 * Elimina los ladrillos que se salgan del límite
+	 * 
+	 * @param juegaso
+	 */
+	private static void sacarLadrillos() {
 		ArrayList<Ladrillo> temporal = new ArrayList<Ladrillo>();
-		for (int i = 0; i < tamaño; i++) {
-			if (!juegaso.ladrillos.isEmpty())
-				juegaso.ladrillos.get(i).actualizar();
-		}
-		for (Ladrillo e : juegaso.ladrillos) {
-			if ((e.getPosX() > 3) || (e.getPosX() < -1)) {
+		for (Ladrillo e : getGame().ladrillos) {
+			if (e.getPosY() > 4) {
 				temporal.add(e);
 			}
-
 		}
-		juegaso.ladrillos.removeAll(temporal);
+		getGame().ladrillos.removeAll(temporal);
 	}
 
+	/**
+	 * Elimina los pajaros que se hayan salido del límite
+	 */
+	private static void sacarPajaros() {
+		ArrayList<Pajaro> temporal = new ArrayList<Pajaro>();
+		for (Pajaro p : getGame().pajaros) {
+			if ((p.getPosX() > 3) || p.getPosX() < 0) {
+				temporal.add(p);
+			}
+		}
+		getGame().pajaros.removeAll(temporal);
+
+	}
+
+	/**
+	 * Verifica si se puede pasar de nivel, es decir, si todas las ventanas están
+	 * sanas
+	 * 
+	 * @return retorna verdadero si se puede pasar, y falso en caso contrario
+	 */
+	private boolean pasarNivel() {
+		Ventana[][] ventanas = getGame().niceland.getSecciones().getMatrizVentanas();
+		for (int i = 0; i < ventanas.length; i++) {
+			for (int j = 0; j < ventanas[i].length; j++)
+				if (!ventanas[i][j].getSana())
+					return false;
+		}
+		return true;
+	}
+
+	/*
+	 * Pasa a la sección siguiente
+	 */
+	private void pasarSeccion() {
+		getGame().setSeccion(getGame().getSeccion() + 1);
+		getGame().niceland.pasarDeSeccion();
+		getGame().nivel.pasarNivel();
+	}
+
+	/**
+	 * Iría a la animación de ganar
+	 */
+	public void ganar() {
+
+	}
 }

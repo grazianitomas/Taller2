@@ -1,25 +1,46 @@
 package entidades;
 
-public class Torta extends Posicion {
+import controladores.Juego;
+import individuos.Individuo;
+
+public class Torta extends Individuo {
 	private boolean torta;
 
+	/*
+	 * Constructor de Torta
+	 */
 	public Torta() {
 		this.torta = true;
 	}
 
+	/*
+	 * Retorna si hay torta
+	 */
 	public boolean getTorta() {
 		return this.torta;
 	}
 
+	/*
+	 * Configura si hay torta
+	 */
 	public void setTorta(boolean torta) {
 		this.torta = torta;
 	}
 
-	// INSTANCIARÍA LA COLISION ENTRE FELIX Y LA TORTA, ES DECIR, CUANDO ÉSTE LA
-	// TOME
-	public int colisionar() {
+	/*
+	 * Verifica si colisiona con Felix
+	 */
+	@Override
+	public boolean colision() {
+		if (this.getUbicacion().equals(Juego.getGame().ubicacionFelix()))
+			return true;
+		else
+			return false;
+	}
 
-		return 0;
+	@Override
+	public void actualizar() {
+		// TODO Auto-generated method stub
 	}
 
 }

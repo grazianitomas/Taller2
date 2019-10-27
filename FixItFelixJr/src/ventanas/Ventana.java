@@ -1,54 +1,88 @@
 package ventanas;
 
-import entidades.NiceLander;
+import entidades.Maceta;
+import entidades.Moldura;
+import individuos.DireccionFelix;
 
 public abstract class Ventana {
 
-	private boolean maceta;
-	private boolean techo;
+	private Maceta maceta;
+	private Moldura moldura;
 	private double probabilidad;
-	private NiceLander nicelander;
 	protected Panel[] paneles;
 
-	// CONSTRUCTOR VACÍO
+	/**
+	 * CONSTRUCTOR VACÍO
+	 */
 	public Ventana() {
 
 	}
 
-	// CONSTRUCTOR QUE SOLO INSTANCIA MACETAS Y TECHO
-	public Ventana(boolean maceta, boolean techo) {
+	/**
+	 * CONSTRUCTOR QUE SOLO INSTANCIA MACETAS Y TECHO
+	 * 
+	 * @param maceta
+	 * @param techo
+	 */
+	public Ventana(Maceta maceta, Moldura moldura) {
 		this.maceta = maceta;
-		this.techo = techo;
+		this.moldura = moldura;
 	}
 
-	// CONSTRUCTOR QUE INSTANCIA TAMBIÉN LOS PANELES
-	public Ventana(boolean maceta, boolean techo, Panel[] paneles) {
+	/**
+	 * CONSTRUCTOR QUE INSTANCIA TAMBIÉN LOS PANELES
+	 * 
+	 * @param maceta
+	 * @param techo
+	 * @param paneles panel a configurar
+	 */
+	public Ventana(Maceta maceta, Moldura moldura, Panel[] paneles) {
 		this.maceta = maceta;
-		this.techo = techo;
-		this.paneles = new Panel[2];
+		this.moldura = moldura;
+		this.paneles = paneles;
 	}
 
-	// RETORNA VERDADERO SI HAY MACETA EN LA VENTANA
-	public boolean isMaceta() {
+	/**
+	 * RETORNA VERDADERO SI HAY MACETA EN LA VENTANA
+	 * 
+	 * @return verdadero o falso
+	 */
+	public Maceta getMaceta() {
 		return maceta;
 	}
 
-	// CONFIGURA UNA MACETA EN LA VENTANA
-	public void setMaceta(boolean maceta) {
+	/**
+	 * CONFIGURA UNA MACETA EN LA VENTANA
+	 * 
+	 * @param maceta
+	 */
+	public void setMaceta(Maceta maceta) {
 		this.maceta = maceta;
 	}
 
-	// RETORNA VERDADERO SI HAY TECHO EN LA VENTANA
-	public boolean isTecho() {
-		return techo;
+	/**
+	 * RETORNA VERDADERO SI HAY TECHO EN LA VENTANA
+	 * 
+	 * @return verdadero o falso
+	 */
+	public Moldura getMoldura() {
+		return this.moldura;
 	}
 
-	// CONFIGURA UN TECHO O MOLDURA EN LA VENTANA
-	public void setTecho(boolean techo) {
-		this.techo = techo;
+	/**
+	 * CONFIGURA UN TECHO O MOLDURA EN LA VENTANA
+	 * 
+	 * @param techo
+	 */
+	public void setMoldura(Moldura moldura) {
+		this.moldura = moldura;
 	}
 
-	// A REEMPLAZAR, REPARA LA VENTANA ACTUAL
+	/**
+	 * REPARA LA VENTANA ACTUAL
+	 * 
+	 * @return retorna 100 si se reparó, o 0 si ya estaba reparada
+	 */
 	public int repararVentana() {
 		if (!this.getSana()) {
 			boolean roto = true;
@@ -66,32 +100,68 @@ public abstract class Ventana {
 		return 0;
 	}
 
-	// RETORNA VERDADERO SI LA VENTANA ACTUAL SE ENCUENTRA COMPLETAMENTE SANA
+	/**
+	 * RETORNA VERDADERO SI LA VENTANA ACTUAL SE ENCUENTRA COMPLETAMENTE SANA
+	 * 
+	 * @return verdadero o falso
+	 */
 	public boolean getSana() {
 		boolean noRoto = true;
 		int i = 0;
 		while ((noRoto) && (i < paneles.length)) {
 			if (paneles[i].getEstado().equals(EstadoPanel.ROTO)) {
-				noRoto=false;
+				noRoto = false;
 			}
 		}
 		return noRoto;
 	}
 
-	// A REEMPLAZAR, INSTANCIA TORTA EN LA VENTANA
-	public boolean darTorta() {
-
-		return false;
-	}
-
-	// CONFIGURA LA PROBABILIDAD DE QUE LOS PANELES ESTEN ROTOS
+	/**
+	 * CONFIGURA LA PROBABILIDAD DE QUE LOS PANELES ESTEN ROTOS
+	 * 
+	 * @param proba probabilidad de que los planeles esten rotos
+	 */
 	public void setProba(double proba) {
 		this.probabilidad = proba;
 	}
 
-	// RETORNA LA PROBABILIDAD DE QUE LOS PANELES ESTEN ROTOS
+	/**
+	 * RETORNA LA PROBABILIDAD DE QUE LOS PANELES ESTEN ROTOS
+	 * 
+	 * @return double
+	 */
 	public double getProba() {
 		return this.probabilidad;
+	}
+
+	/**
+	 * Retorna la ventana actual
+	 * 
+	 * @return
+	 */
+	public Ventana getVentana() {
+		return this;
+	}
+
+	/**
+	 * Verifica si Felix puede moverse en direcciones de arriba o abajo
+	 * 
+	 * @param direc direccion a la que se solicita moverse
+	 * @return verdadero o falso
+	 */
+	public boolean puedeMoverse(DireccionFelix direc) {
+		if (direc.equals(DireccionFelix.ARRIBA)) {
+			if (!this.getMoldura().getHay()) {
+				return true;
+			} else
+				return false;
+		} else {
+			if (!this.getMaceta().getHay()) {
+				return true;
+			} else
+				return false;
+
+		}
 	}
 
 }

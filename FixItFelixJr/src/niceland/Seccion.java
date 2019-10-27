@@ -4,22 +4,31 @@ import java.util.Random;
 import ventanas.*;
 
 public class Seccion {
-	private EstadoSeccion seccionFinal = EstadoSeccion.SECCIÓN_SUPERIOR;
-	private static EstadoSeccion secciónActual;
+	private static EstadoSeccion seccionActual;
 	private Ventana[][] ventanas;
 	Random rand = new Random();
 
-	// CONFIGURA LA VENTANA EN LAS POSICIONES DADAS CON EL TIPO DE VENTANA PASADA
+	/**
+	 * CONFIGURA LA VENTANA EN LAS POSICIONES DADAS CON EL TIPO DE VENTANA PASADA
+	 * 
+	 * @param x    posicion en x
+	 * @param y    posicion en y
+	 * @param vent tipo de ventana a colocar
+	 */
 	public void setVentana(int x, int y, Ventana vent) {
 		this.ventanas[x][y] = vent;
 	}
 
-	// CONSTRUYE LAS SECCION CORRESPONDIENTE CON EL PARÁMETRO "K"
-	// CON LA CORRESPONDIENTE PROBABILIDAD DE PANELES ROTOS, PASADOS CON "PROBA"
-	public Seccion(double proba, int k) {
+	/**
+	 * CONSTRUYE LAS SECCION CORRESPONDIENTE CON EL PARÁMETRO "K" CON LA
+	 * CORRESPONDIENTE PROBABILIDAD DE PANELES ROTOS, PASADOS CON "PROBA"
+	 * 
+	 * @param proba
+	 * @param k
+	 */
+	public Seccion(double proba) {
 		this.ventanas = new Ventana[3][5];
-		if (k == 0) {
-			this.setSeccionActual(EstadoSeccion.SECCIÓN_INFERIOR);
+		if (seccionActual.equals(null)) {
 			for (int i = 0; i < 3; i++)
 				for (int j = 0; j < 5; j++) {
 					if (j == 2) {
@@ -32,9 +41,9 @@ public class Seccion {
 					} else
 						this.setVentana(i, j, new Comun(proba));
 				}
-		}
-		if (k == 1) {
-			this.pasarSeccion();
+			this.setSeccionActual(EstadoSeccion.SECCION_INFERIOR);
+			return;
+		} else if (seccionActual.equals(EstadoSeccion.SECCION_INFERIOR)) {
 			for (int i = 0; i < 3; i++)
 				for (int j = 0; j < 5; j++) {
 					if (rand.nextBoolean())
@@ -42,93 +51,67 @@ public class Seccion {
 					else
 						this.setVentana(i, j, new DosHojas(proba));
 				}
-		}
-		if (k == 2) {
 			this.pasarSeccion();
-			for (int i = 0; i < 3; i++)
-				for (int j = 0; j < 5; j++) {
-					if (rand.nextBoolean())
-						this.setVentana(i, j, new Comun(proba));
-					else
-						this.setVentana(i, j, new DosHojas(proba));
-				}
-		}
-	}
-
-	// VERSION MAS INEFICIENTE DE CONSTRUCTOR
-	public Seccion(double probabilidad) {
-		this.ventanas = new Ventana[3][5];
-		if (getSeccionActual() == null) {
-			this.setSeccionActual(EstadoSeccion.SECCIÓN_INFERIOR);
-			for (int i = 0; i < 3; i++)
-				for (int j = 0; j < 5; j++) {
-					if ((i == 2) && (j == 2))
-						this.setVentana(i, j, new Puerta(probabilidad));
-					if ((i == 1) && (j == 2))
-						this.setVentana(i, j, new Semicircular(probabilidad));
-					else
-						this.setVentana(i, j, new Comun(probabilidad));
-
-				}
-			this.pasarSeccion();
+			return;
 		} else {
-			if (getSeccionActual().equals(EstadoSeccion.SECCIÓN_MEDIA)) {
-				this.setSeccionActual(EstadoSeccion.SECCIÓN_MEDIA);
-				// CONSTRUIR NORMAL
-				Comun com = new Comun(probabilidad);
-				for (int i = 0; i < 3; i++)
-					for (int j = 0; j < 5; j++) {
-						this.setVentana(i, j, com);
-						com = new Comun(probabilidad);
-					}
-				this.pasarSeccion();
-			} else {
-				Comun com = new Comun(probabilidad);
-				DosHojas dos = new DosHojas(probabilidad);
-				for (int i = 0; i < 3; i++)
-					for (int j = 0; j < 5; j++) {
-						if (rand.nextBoolean())
-							this.setVentana(i, j, com);
-						else
-							this.setVentana(i, j, dos);
-						com = new Comun(probabilidad);
-						dos = new DosHojas(probabilidad);
-					}
-				// DEFINIR NORMAL LA ULTIMA
-			}
+			for (int i = 0; i < 3; i++)
+				for (int j = 0; j < 5; j++) {
+					if (rand.nextBoolean())
+						this.setVentana(i, j, new Comun(proba));
+					else
+						this.setVentana(i, j, new DosHojas(proba));
+				}
 		}
-
 	}
 
-	// RETORNA LA SECCION ACTUAL EN TIPO ENUMERATIVO
+	/**
+	 * RETORNA LA SECCION ACTUAL EN TIPO ENUMERATIVO
+	 * 
+	 * @return
+	 */
 	public static EstadoSeccion getSeccionActual() {
-		return secciónActual;
+		return seccionActual;
 	}
 
 	public int getSeccionNum() {
-		return getSeccionActual().getSeccion(secciónActual);
+		return getSeccionActual().getSeccion(seccionActual);
 	}
 
-	// CONFIGURA LA SECCION ACTUAL CON LA PASADA POR PARÁMETRO
+	/**
+	 * CONFIGURA LA SECCION ACTUAL CON LA PASADA POR PARÁMETRO
+	 * 
+	 * @param actual
+	 */
 	public void setSeccionActual(EstadoSeccion actual) {
-		secciónActual = actual;
+		seccionActual = actual;
 	}
 
-	// MODULA EL PASAJE DE SECCION
-	public EstadoSeccion pasarSeccion() {
-		if (secciónActual.equals(EstadoSeccion.SECCIÓN_INFERIOR))
-			secciónActual = EstadoSeccion.SECCIÓN_MEDIA;
-		else if (secciónActual.equals(EstadoSeccion.SECCIÓN_MEDIA))
-			secciónActual = this.seccionFinal;
-		return secciónActual;
+	/**
+	 * MODULA EL PASAJE DE SECCION
+	 */
+	public void pasarSeccion() {
+		if (seccionActual.equals(EstadoSeccion.SECCION_INFERIOR))
+			seccionActual = EstadoSeccion.SECCION_MEDIA;
+		else
+			seccionActual = EstadoSeccion.SECCION_SUPERIOR;
 	}
 
-	// RETORNA LA VENTANA EN LAS POSICIONES DADAS
+	/**
+	 * RETORNA LA VENTANA EN LAS POSICIONES DADAS
+	 * 
+	 * @param x posicion en x a buscar
+	 * @param y posicion en y a buscar
+	 * @return Retorna la matriz en la posicion pasada por parametro
+	 */
 	public Ventana getVentana(int x, int y) {
 		return ventanas[x][y];
 	}
 
-	// RETORNA LA MATRIZ COMPLETA DE VENTANAS
+	/**
+	 * RETORNA LA MATRIZ COMPLETA DE VENTANAS
+	 * 
+	 * @return
+	 */
 	public Ventana[][] getMatrizVentanas() {
 		return ventanas;
 	}

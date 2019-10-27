@@ -1,39 +1,57 @@
 package niceland;
 
-import entidades.Posicion;
 import java.util.Random;
 
-public class Edificio extends Posicion {
-	private Seccion[] secciones;
+import controladores.Juego;
+
+public class Edificio {
+	private static Seccion secciones;
 	private Random rand;
+	private static double probabilidadSeccion = 0.0;
 
-	// RETORNA LA SECCION QUE SE PASA POR PARÁMETRO
-	public Seccion getSecciones(int i) {
-		return secciones[i];
+	/**
+	 * RETORNA LA SECCION QUE SE PASA POR PARÁMETRO
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public Seccion getSecciones() {
+		return secciones;
 	}
 
-	// CONFIGURA LAS SECCIONES CON LA PASADA POR PARÁMETRO
-	public void setSecciones(Seccion[] secciones) {
-		this.secciones = secciones;
+	public void pasarDeSeccion() {
+		secciones = new Seccion(this.calculoProbabilidad() + Juego.getGame().getSeccion());
 	}
 
-	// CONSTRUCTOR DEL EDIFICIO
+	/**
+	 * CONFIGURA LAS SECCIONES CON LA PASADA POR PARÁMETRO
+	 * 
+	 * @param secciones
+	 */
+	public void setSecciones(Seccion seccion) {
+		secciones = seccion;
+	}
+
+	/**
+	 * CONSTRUCTOR DEL EDIFICIO
+	 */
 	public Edificio() {
-		super();
-		this.rand = new Random();
-		double[] coefs = new double[3];
-		coefs[0] = 0.02;
-		coefs[1] = 0.04;
-		coefs[2] = 0.08;
 		System.out.println("Se crea el edificio");
+		secciones = new Seccion(this.calculoProbabilidad() + Juego.getGame().getSeccion());
+	}
+	
+	/**
+	 * calcula la probabilidad de ventanas rotas, semirotas y sanas
+	 * @return retorna la probabildiad
+	 */
+	
+	private double calculoProbabilidad() {
+		this.rand = new Random();
+		probabilidadSeccion += 0.02;
 		int coef = rand.nextInt(10);
 		double probabilidad;
-		this.secciones = new Seccion[3];
-		for (int i = 0; i < 3; i++) {
-			probabilidad = coef * coefs[i];
-			secciones[i] = new Seccion(probabilidad + i, i);
-
-		}
+		probabilidad = coef * probabilidadSeccion;
+		return probabilidad;
 	}
 
 }

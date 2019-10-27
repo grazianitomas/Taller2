@@ -3,12 +3,12 @@ package ventanas;
 import java.util.Random;
 
 public class DosHojas extends Ventana {
-	private OpenClose estado;
+	private OpenClose estado = OpenClose.CERRADA;
 
 	private Random rand = new Random();
 
 	// RETORNA SI ESTÁ ABIERTA O CERRADA
-	public OpenClose isAbierta() {
+	public OpenClose getAbierta() {
 		return estado;
 	}
 
