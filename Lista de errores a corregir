@@ -8,11 +8,8 @@ UML
 POO
 
 Documentacion
-- Exportaron el javadoc pero no pusieron comentarios con la sintaxis que corresponde.
-           
+
 Sintaxis Java
 
-Funcionamiento
-- No estan los obstaculos implementados, ni el Nicelander con el Pastel.     
-- Verificar si la verificación de si Felix se puede mover es la correcta.
-- Preguntar como funciona el actualizar de felix
+Funcionamiento 
+- Implementar el mover de Felix con las flechas o teclas (W, A, S, D) (Con eventos).
