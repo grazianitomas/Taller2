@@ -1,9 +1,10 @@
 package controladores;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import entidades.Posicion;
-import entidades.Torta;
 import individuos.DireccionFelix;
 import individuos.FelixJr;
 import individuos.Individuo;
@@ -13,16 +14,17 @@ import individuos.Ralph;
 import niceland.Edificio;
 import ventanas.Ventana;
 
-public class Juego {
+public class Juego implements Runnable {
 
 	private FelixJr felix;
 	private Edificio niceland;
 	private Nivel nivel;
 	private int seccionActual;
+	private CopyOnWriteArrayList<Ladrillo> ladrillos = new CopyOnWriteArrayList<Ladrillo>();
+	private CopyOnWriteArrayList<Individuo> individuos = new CopyOnWriteArrayList<Individuo>();
+	private CopyOnWriteArrayList<Pajaro> pajaros = new CopyOnWriteArrayList<Pajaro>();
+
 	private static Juego game = new Juego();
-	private ArrayList<Ladrillo> ladrillos = new ArrayList<Ladrillo>();
-	private ArrayList<Individuo> individuos = new ArrayList<Individuo>();
-	private ArrayList<Pajaro> pajaros = new ArrayList<Pajaro>();
 
 	public static Juego getGame() {
 		return game;
@@ -35,6 +37,10 @@ public class Juego {
 	 */
 	public void agregarLadrillo(Ladrillo L) {
 		ladrillos.add(L);
+	}
+
+	public CopyOnWriteArrayList<Individuo> getIndividuos() {
+		return individuos;
 	}
 
 	public Edificio getNiceland() {
@@ -87,6 +93,11 @@ public class Juego {
 	 */
 	public static void main(String[] args) {
 		jugarFixItFelixJr();
+	}
+
+	@Override
+	public void run() {
+
 	}
 
 	/*
@@ -186,10 +197,18 @@ public class Juego {
 	 * Verifica si se puede pasar de nivel
 	 */
 	private static void verificarPasajeDeNivel() {
-		if (getGame().pasarNivel() && getGame().nivel.getNivelActual().equals(Niveles.NIVEL5)) {
-			getGame().pasarSeccion();
-		} else
-			getGame().nivel.pasarNivel();
+		if (getGame().pasarSeccion()) {
+			if (getGame().getSeccion() == 3) {
+				getGame().nivel.pasarNivel();
+				getGame().setSeccion(0);
+				getGame().niceland.pasarDeSeccion(getGame().niceland.getSecciones().getSeccionActual().proxSeccion());
+				System.out.println("Congratulaciones! Pasaste al nivel "
+						+ getGame().nivel.getNivelActual().getNivelesNum(getGame().nivel.getNivelActual()));
+
+			}
+			getGame().niceland.pasarDeSeccion(getGame().niceland.getSecciones().getSeccionActual().proxSeccion());
+			getGame().felix = new FelixJr(getGame().felix.getPosX(), getGame().felix.getPosY());
+		}
 	}
 
 	/**
@@ -224,10 +243,9 @@ public class Juego {
 	 * ORDENA A FELIX A DAR UN MARTILLAZO EN SU POSICIÓN
 	 */
 	private static void martillazo() {
-		for (int i = 0; i < 4; i++)
-			getGame().felix.darMartillazo(
-					getGame().niceland.getSecciones().getVentana(getGame().felix.getPosX(), getGame().felix.getPosY()));
-		System.out.println("FelixJr dio 4 martillazos");
+		Ventana aReparar = getGame().getNiceland().getSecciones().getVentana(getGame().ubicacionFelix().getPosX(),
+				getGame().ubicacionFelix().getPosY());
+		getGame().felix.darMartillazo(aReparar);
 	}
 
 	/**
@@ -236,15 +254,10 @@ public class Juego {
 	 * @return
 	 */
 	public static boolean colisionar() {
-		Torta cake = new Torta();
 		for (Individuo i : getGame().individuos) {
-			if (i.colision(getGame().felix.getUbicacion())) {
-				if (i.equals(cake))
-					getGame().felix.setInvulnerabilidad(true);
-				else {
-					if (getGame().felix.getVidas() > 0)
-						getGame().felix = new FelixJr(2, 2);
-				}
+			if (i.colision(getGame().felix.getPosicion())) {
+				if (getGame().felix.getVidas() > 0)
+					getGame().felix = new FelixJr(2, 2);
 				return true;
 			}
 		}
@@ -257,7 +270,7 @@ public class Juego {
 	 * @return
 	 */
 	public Posicion ubicacionFelix() {
-		return getGame().felix.getUbicacion();
+		return getGame().felix.getPosicion();
 	}
 
 	/**
@@ -295,7 +308,7 @@ public class Juego {
 	 * 
 	 * @return retorna verdadero si se puede pasar, y falso en caso contrario
 	 */
-	private boolean pasarNivel() {
+	private boolean pasarSeccion() {
 		Ventana[][] ventanas = getGame().niceland.getSecciones().getMatrizVentanas();
 		for (int i = 0; i < ventanas.length; i++) {
 			for (int j = 0; j < ventanas[i].length; j++)
@@ -305,19 +318,11 @@ public class Juego {
 		return true;
 	}
 
-	/*
-	 * Pasa a la sección siguiente
-	 */
-	private void pasarSeccion() {
-		getGame().setSeccion(getGame().getSeccion() + 1);
-		getGame().niceland.pasarDeSeccion();
-		getGame().nivel.pasarNivel();
-	}
-
 	/**
 	 * Iría a la animación de ganar
 	 */
 	public void ganar() {
 
 	}
+
 }

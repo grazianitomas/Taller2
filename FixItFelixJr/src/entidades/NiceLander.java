@@ -1,11 +1,25 @@
 package entidades;
 
-import controladores.Juego;
 import entidades.Torta;
 import individuos.Individuo;
 
 public class NiceLander extends Individuo {
 	private boolean listo;
+	private boolean torta;
+
+	/**
+	 * @return retorna s hay torta
+	 */
+	public boolean isTorta() {
+		return torta;
+	}
+
+	/**
+	 * @param Torta a asignar
+	 */
+	public void setTorta(boolean torta) {
+		this.torta = torta;
+	}
 
 	/**
 	 * Constructor de Nicelander
@@ -45,14 +59,12 @@ public class NiceLander extends Individuo {
 	 * Verifica si colisiona con Felix, en caso de hacerlo no deja el pastel
 	 */
 	@Override
-	public boolean colision() {
-		if (this.getUbicacion().equals(Juego.getGame().ubicacionFelix())) {
+	public boolean colision(Posicion p) {
+		if (super.colision(p)) {
 			this.setListo(false);
 			return true;
-		} else {
-			this.setListo(true);
+		} else
 			return false;
-		}
 	}
 
 	/**
@@ -60,7 +72,6 @@ public class NiceLander extends Individuo {
 	 */
 	@Override
 	public void actualizar() {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -50,7 +50,7 @@ public class Ralph extends Individuo {
 		System.out.println("Ralph está demoliendo.");
 		int cont = 0;
 		while ((cont < 3) && (this.cantLadrillos > 0)) {
-			Juego.getGame().setIndividuo(new Ladrillo(0, rand.nextInt(4)));
+			Juego.getGame().setIndividuo(new Ladrillo(0, rand.nextInt(4), 0));
 			this.cantLadrillos -= 1;
 			cont++;
 		}

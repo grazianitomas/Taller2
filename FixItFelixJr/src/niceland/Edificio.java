@@ -5,7 +5,7 @@ import java.util.Random;
 import controladores.Juego;
 
 public class Edificio {
-	private static Seccion secciones;
+	private Seccion secciones;
 	private Random rand;
 	private static double probabilidadSeccion = 0.0;
 
@@ -16,11 +16,14 @@ public class Edificio {
 	 * @return
 	 */
 	public Seccion getSecciones() {
-		return secciones;
+		return this.secciones;
 	}
 
-	public void pasarDeSeccion() {
-		secciones = new Seccion(this.calculoProbabilidad() + Juego.getGame().getSeccion());
+	/**
+	 * Simula el pasaje de sección
+	 */
+	public void pasarDeSeccion(EstadoSeccion ES) {
+		this.secciones = new Seccion(ES, this.calculoProbabilidad() + Juego.getGame().getSeccion());
 	}
 
 	/**
@@ -29,7 +32,7 @@ public class Edificio {
 	 * @param secciones
 	 */
 	public void setSecciones(Seccion seccion) {
-		secciones = seccion;
+		this.secciones = seccion;
 	}
 
 	/**
@@ -37,21 +40,28 @@ public class Edificio {
 	 */
 	public Edificio() {
 		System.out.println("Se crea el edificio");
-		secciones = new Seccion(this.calculoProbabilidad() + Juego.getGame().getSeccion());
+		this.secciones = new Seccion(EstadoSeccion.SECCION_INFERIOR, this.calculoProbabilidad());
 	}
-	
+
 	/**
 	 * calcula la probabilidad de ventanas rotas, semirotas y sanas
+	 * 
 	 * @return retorna la probabildiad
 	 */
-	
+
 	private double calculoProbabilidad() {
 		this.rand = new Random();
 		probabilidadSeccion += 0.02;
 		int coef = rand.nextInt(10);
+		return (coef * probabilidadSeccion);
+	}
+
+	public void nuevaSeccion(EstadoSeccion ES) {
+		this.rand = new Random();
+		int coef = rand.nextInt(10);
 		double probabilidad;
 		probabilidad = coef * probabilidadSeccion;
-		return probabilidad;
+		this.secciones = new Seccion(ES, probabilidad);
 	}
 
 }

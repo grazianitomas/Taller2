@@ -61,5 +61,5 @@ public class Pajaro extends Individuo {
 	public void moverDer() {
 		this.setPosX(this.getPosX() + 1);
 	}
-
+	
 }

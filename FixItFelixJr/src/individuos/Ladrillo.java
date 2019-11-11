@@ -1,7 +1,5 @@
 package individuos;
 
-import controladores.Juego;
-
 public class Ladrillo extends Individuo {
 	
 	/*

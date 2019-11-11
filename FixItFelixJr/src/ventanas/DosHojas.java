@@ -4,6 +4,7 @@ import java.util.Random;
 
 import entidades.Maceta;
 import entidades.Moldura;
+import individuos.DireccionFelix;
 
 public class DosHojas extends Ventana {
 	private OpenClose estado = OpenClose.CERRADA;
@@ -64,5 +65,42 @@ public class DosHojas extends Ventana {
 			break;
 		}
 	}
-
+	
+	/**
+	 * Reemplaza el método puedeMoverse de la superclase Ventana 
+	 */
+	public boolean puedeMoverse(DireccionFelix direc) {
+		boolean puede = true;
+		switch (direc) {
+		case ARRIBA: {
+			if (!(this.getMoldura() == null))
+				return puede;
+			else
+				puede = false;
+		}
+			break;
+		case ABAJO:
+			if (!(this.getMaceta() == null))
+				return puede;
+			else
+				puede = false;
+			break;
+		case DERECHA:
+			if (!(this.getAbierta().equals(OpenClose.ABIERTA_DERECHA)))
+				return puede;
+			else
+				puede = false;
+			break;
+		case IZQUIERDA:
+			if (!(this.getAbierta().equals(OpenClose.ABIERTA_IZQUIERDA)))
+				return puede;
+			else
+				puede = false;
+			break;
+		case QUIETO: {
+			return puede;
+		}
+		}
+		return puede;
+	}
 }

@@ -1,18 +1,20 @@
 package controladores;
 
+import individuos.Individuo;
+
 public class Nivel {
 	private Niveles nivelInicial = Niveles.NIVEL1;
-	private Niveles nivelFinal = Niveles.NIVEL5;
+	private Niveles nivelFinal = Niveles.NIVEL10;
 	private Niveles nivelActual;
-	private Niveles[] arregloNiveles = { Niveles.NIVEL1, Niveles.NIVEL2, Niveles.NIVEL3, Niveles.NIVEL4,
-			Niveles.NIVEL5 };
+	private Niveles[] arregloNiveles = { Niveles.NIVEL1, Niveles.NIVEL2, Niveles.NIVEL3, Niveles.NIVEL4, Niveles.NIVEL5,
+			Niveles.NIVEL6, Niveles.NIVEL7, Niveles.NIVEL8, Niveles.NIVEL9, Niveles.NIVEL10 };
 	private int corredorNiveles = 0;
 
 	/**
 	 * AUMENTA LA DIFICULTAD
 	 */
 	public void aumentarDificultad() {
-		
+
 	}
 
 	/**
@@ -32,17 +34,20 @@ public class Nivel {
 	public void setNivelActual(Niveles N) {
 		this.nivelActual = N;
 	}
-	
+
 	/**
 	 * PASA DE NIVEL
 	 */
-	public void pasarNivel() {
-		if (nivelActual.equals(nivelFinal) && Juego.getGame().getSeccion() == 2) {
+	public boolean pasarNivel() {
+		if (nivelActual.equals(nivelFinal)) {
 			this.ganar();
+			return false;
 		} else {
+			for (Individuo I : Juego.getGame().getIndividuos())
+				I.setVelocidad(I.getVelocidad() + 0.1);
 			nivelActual = arregloNiveles[++corredorNiveles];
-			
 		}
+		return true;
 	}
 
 	/**
@@ -63,6 +68,6 @@ public class Nivel {
 	 * A IMPLEMENTAR CON EL JUEGO COMPLETO HARÍA LA SIMULACIÓN DE GANAR
 	 */
 	public void ganar() {
-		
+
 	}
 }

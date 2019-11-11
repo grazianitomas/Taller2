@@ -1,6 +1,7 @@
 package individuos;
 
 import controladores.Juego;
+import entidades.Posicion;
 import ventanas.*;
 
 public class FelixJr extends Individuo {
@@ -9,6 +10,7 @@ public class FelixJr extends Individuo {
 	private boolean invulnerable;
 	private static int vidas = 4;
 	private static int puntaje = 0;
+	private int contadorInv;
 
 	/**
 	 * CREA A FELIX EN LAS POCICIONES DADAS
@@ -22,14 +24,6 @@ public class FelixJr extends Individuo {
 		this.vivo = true;
 		vidas -= 1;
 		this.invulnerable = true;
-	}
-
-	public void setInvulnerabilidad(boolean b) {
-		this.invulnerable = b;
-	}
-
-	public boolean getInvulnerabilidad() {
-		return this.invulnerable;
 	}
 
 	/*
@@ -77,7 +71,6 @@ public class FelixJr extends Individuo {
 	}
 
 	/**
-	 * DEVUELVE EL PUNTAJE ACTUAL DE FELIX
 	 * 
 	 * @return
 	 */
@@ -91,53 +84,35 @@ public class FelixJr extends Individuo {
 	 * @param direc, indica hacia la dirección que se desea que Felix se mueva
 	 */
 	public void mover(DireccionFelix direc) {
-		if (!direc.equals(null))
+		Ventana aux = Juego.getGame().getNiceland().getSecciones().getVentana(getPosX(), getPosY());
+		Posicion siguiente = this.getPosicion().getNextPos(direc);
+		Ventana nextVentana = Juego.getGame().getNiceland().getSecciones().getVentana(siguiente.getPosX(),
+				siguiente.getPosY());
+		DireccionFelix dirInver = direc.direccionInvertida(direc);
+		if (aux.puedeMoverse(direc) && nextVentana.puedeMoverse(dirInver)) {
+			this.setPosicion(siguiente);
+			if (nextVentana.pastel) {
+				this.setInvulnerable(true);
+				this.setContadorInv(2000);
+			}
+		}
 
-			switch (direc) {
-			case ARRIBA: {
-				if (getPosY() < 0)
-					if (Juego.getGame().getNiceland().getSecciones().getVentana(getPosX(), getPosY())
-							.puedeMoverse(direc)) {
-						this.setPosX(this.getPosX() - 1);
-						System.out.println("FelixJr se movio hacia arriba");
-					}
-			}
-				break;
-			case DERECHA: {
-				if (getPosX() < 4)
-					if (!((DosHojas) Juego.getGame().getNiceland().getSecciones().getVentana(getPosX(), getPosY()))
-							.getAbierta().equals(OpenClose.ABIERTA_DERECHA)) {
-						if (!((DosHojas) Juego.getGame().getNiceland().getSecciones().getVentana(getPosX() + 1,
-								getPosY())).getAbierta().equals(OpenClose.ABIERTA_IZQUIERDA)) {
-							this.setPosY(this.getPosY() + 1);
-							System.out.println("FelixJr se movio hacia la derecha");
-						}
-					}
-			}
-				break;
-			case ABAJO: {
-				if (getPosY() < 3)
-					if (Juego.getGame().getNiceland().getSecciones().getVentana(getPosX(), getPosY())
-							.puedeMoverse(direc)) {
-						this.setPosX(this.getPosX() + 1);
-						System.out.println("FelixJr se movio hacia abajo");
-					}
-			}
-				break;
-			case IZQUIERDA: {
-				if (getPosX() > 0)
-					if (!((DosHojas) Juego.getGame().getNiceland().getSecciones().getVentana(getPosX(), getPosY()))
-							.getAbierta().equals(OpenClose.ABIERTA_IZQUIERDA)) {
-						if (!((DosHojas) Juego.getGame().getNiceland().getSecciones().getVentana(getPosX() + 1,
-								getPosY())).getAbierta().equals(OpenClose.ABIERTA_DERECHA)) {
-							this.setPosY(this.getPosY() - 1);
-							System.out.println("FelixJr se movio hacia la izquierda");
-						}
-					}
-			}
-				break;
-			}
+	}
 
+	public boolean getInvulnerable() {
+		return invulnerable;
+	}
+
+	public void setInvulnerable(boolean invulnerable) {
+		this.invulnerable = invulnerable;
+	}
+
+	public int getContadorInv() {
+		return contadorInv;
+	}
+
+	public void setContadorInv(int contadorInv) {
+		this.contadorInv = contadorInv;
 	}
 
 	/**
@@ -155,8 +130,10 @@ public class FelixJr extends Individuo {
 	 */
 	@Override
 	public void actualizar() {
-		//this.mover(direc);
-
+		if (this.getInvulnerable()) {
+			this.setContadorInv(this.getContadorInv() - 1);
+		}
+		
 	}
 
 }

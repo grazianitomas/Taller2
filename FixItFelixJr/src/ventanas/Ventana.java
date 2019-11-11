@@ -2,6 +2,7 @@ package ventanas;
 
 import entidades.Maceta;
 import entidades.Moldura;
+import entidades.NiceLander;
 import individuos.DireccionFelix;
 
 public abstract class Ventana {
@@ -10,6 +11,8 @@ public abstract class Ventana {
 	private Moldura moldura;
 	private double probabilidad;
 	protected Panel[] paneles;
+	public boolean pastel;
+	private NiceLander nicelander;
 
 	/**
 	 * CONSTRUCTOR VACÍO
@@ -109,9 +112,11 @@ public abstract class Ventana {
 		boolean noRoto = true;
 		int i = 0;
 		while ((noRoto) && (i < paneles.length)) {
-			if (paneles[i].getEstado().equals(EstadoPanel.ROTO)) {
+			if (paneles[i].getEstado().equals(EstadoPanel.ROTO)
+					|| paneles[i].getEstado().equals(EstadoPanel.SEMI_ROTO)) {
 				noRoto = false;
 			}
+			i++;
 		}
 		return noRoto;
 	}
@@ -151,12 +156,12 @@ public abstract class Ventana {
 	 */
 	public boolean puedeMoverse(DireccionFelix direc) {
 		if (direc.equals(DireccionFelix.ARRIBA)) {
-			if (!this.getMoldura().equals(null)) {
+			if (!(this.getMoldura() == null)) {
 				return true;
 			} else
 				return false;
 		} else {
-			if (!this.getMaceta().equals(null)) {
+			if (!(this.getMaceta() == null)) {
 				return true;
 			} else
 				return false;

@@ -1,6 +1,4 @@
 package entidades;
-
-import controladores.Juego;
 import individuos.Individuo;
 
 public class Torta extends Individuo {

@@ -5,7 +5,6 @@ import entidades.NiceLander;
 public class Panel {
 
 	private EstadoPanel estado;
-	private NiceLander nicelander;
 
 	/*
 	 * CREA UN PANEL CON LA PROBABILIDAD DE QUE ESTÉ ROTO O SANO
@@ -44,22 +43,6 @@ public class Panel {
 				setEstado(EstadoPanel.SANO);
 			}
 		}
-	}
-	
-	/**
-	 * Configura un Nicelander en éste panel
-	 * @param l
-	 */
-	public void setNicelander(NiceLander l) {
-		this.nicelander = l;
-	}
-	
-	/**
-	 * Retorna el nicelander de éste panel; 
-	 * @return
-	 */
-	public NiceLander getNicelander() {
-		return this.nicelander;
 	}
 
 }

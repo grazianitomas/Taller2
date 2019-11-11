@@ -4,7 +4,7 @@ import java.util.Random;
 import ventanas.*;
 
 public class Seccion {
-	private static EstadoSeccion seccionActual;
+	private EstadoSeccion seccionActual;
 	private Ventana[][] ventanas;
 	Random rand = new Random();
 
@@ -26,42 +26,44 @@ public class Seccion {
 	 * @param proba
 	 * @param k
 	 */
-	public Seccion(double proba) {
+	public Seccion(EstadoSeccion ES, double proba) {
 		this.ventanas = new Ventana[3][5];
-		if (seccionActual.equals(null)) {
-			for (int i = 0; i < 3; i++)
-				for (int j = 0; j < 5; j++) {
-					if (j == 2) {
-						if (i == 0)
-							this.setVentana(i, j, new Comun(proba));
-						if (i == 1)
-							this.setVentana(i, j, new Semicircular(proba));
-						if (i == 2)
-							this.setVentana(i, j, new Puerta(proba));
-					} else
-						this.setVentana(i, j, new Comun(proba));
-				}
+		if (ES.equals(EstadoSeccion.SECCION_INFERIOR)) {
+			seccionInferior(proba);
 			this.setSeccionActual(EstadoSeccion.SECCION_INFERIOR);
 			return;
-		} else if (seccionActual.equals(EstadoSeccion.SECCION_INFERIOR)) {
-			for (int i = 0; i < 3; i++)
-				for (int j = 0; j < 5; j++) {
-					if (rand.nextBoolean())
-						this.setVentana(i, j, new Comun(proba));
-					else
-						this.setVentana(i, j, new DosHojas(proba));
-				}
+		} else if (ES.equals(EstadoSeccion.SECCION_INFERIOR)) {
+			seccionMedia(proba);
 			this.pasarSeccion();
 			return;
 		} else {
-			for (int i = 0; i < 3; i++)
-				for (int j = 0; j < 5; j++) {
-					if (rand.nextBoolean())
-						this.setVentana(i, j, new Comun(proba));
-					else
-						this.setVentana(i, j, new DosHojas(proba));
-				}
+			seccionMedia(proba);
 		}
+	}
+
+	private void seccionMedia(double proba) {
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 5; j++) {
+				if (rand.nextBoolean())
+					this.setVentana(i, j, new Comun(proba));
+				else
+					this.setVentana(i, j, new DosHojas(proba));
+			}
+	}
+
+	private void seccionInferior(double proba) {
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 5; j++) {
+				if (j == 2) {
+					if (i == 0)
+						this.setVentana(i, j, new Comun(proba));
+					if (i == 1)
+						this.setVentana(i, j, new Semicircular(proba));
+					if (i == 2)
+						this.setVentana(i, j, new Puerta(proba));
+				} else
+					this.setVentana(i, j, new Comun(proba));
+			}
 	}
 
 	/**
@@ -69,12 +71,12 @@ public class Seccion {
 	 * 
 	 * @return
 	 */
-	public static EstadoSeccion getSeccionActual() {
-		return seccionActual;
+	public EstadoSeccion getSeccionActual() {
+		return this.seccionActual;
 	}
 
 	public int getSeccionNum() {
-		return getSeccionActual().getSeccion(seccionActual);
+		return getSeccionActual().getSeccionNum(seccionActual);
 	}
 
 	/**
