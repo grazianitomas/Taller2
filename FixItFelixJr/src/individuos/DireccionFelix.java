@@ -1,13 +1,14 @@
 package individuos;
 
 public enum DireccionFelix {
-	/**
+	/*
 	 * Direcciones a los que Felix podria ir
 	 */
 	ARRIBA, DERECHA, ABAJO, IZQUIERDA, QUIETO;
-	
+
 	/**
 	 * Retorna la direccion opuesta a la que quiere ir Felix
+	 * 
 	 * @param direc direccion a la que quiere ir
 	 * @return direccion opuesta
 	 */
@@ -28,5 +29,11 @@ public enum DireccionFelix {
 		case QUIETO:
 		}
 		return DireccionFelix.QUIETO;
+	}
+
+	private DireccionFelix(String algo, int al) {
+	}
+
+	private DireccionFelix() {
 	}
 }

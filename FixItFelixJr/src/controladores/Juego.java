@@ -92,10 +92,9 @@ public class Juego implements Runnable {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		jugarFixItFelixJr();
+
 	}
 
-	@Override
 	public void run() {
 
 	}
@@ -105,72 +104,7 @@ public class Juego implements Runnable {
 	 * demas
 	 */
 	private static void jugarFixItFelixJr() {
-		while (getGame().felix.getVidas() > 0) {
-			getGame().setSeccion(0);
-			getGame().actualizar();
-			martillazo();
-			verificarPasajeDeNivel();
-			moverDerecha();
-			if (colisionar())
-				continue;
-			martillazo();
-			verificarPasajeDeNivel();
-			moverDerecha();
-			getGame().actualizar();
-			sacarLadrillos();
-			if (colisionar())
-				continue;
-			martillazo();
-			verificarPasajeDeNivel();
-			moverArriba();
-			getGame().actualizar();
-			for (int i = 0; i < 4; i++) {
-				moverIzquierda();
-				martillazo();
-				verificarPasajeDeNivel();
-				sacarLadrillos();
-				getGame().actualizar();
-				if (colisionar())
-					continue;
-			}
-			martillazo();
-			verificarPasajeDeNivel();
-			moverArriba();
-			getGame().actualizar();
-			sacarLadrillos();
-			if (colisionar())
-				continue;
-			martillazo();
-			verificarPasajeDeNivel();
-			moverArriba();
-			sacarLadrillos();
-			getGame().setSeccion(1);
-			getGame().felix.setPosX(2);
-			getGame().felix.setPosY(0);
-			if (colisionar())
-				continue;
-			for (int i = 0; i < 4; i++) {
-				martillazo();
-				verificarPasajeDeNivel();
-				moverDerecha();
-				getGame().actualizar();
-				sacarLadrillos();
-				sacarLadrillos();
-				if (colisionar())
-					continue;
-			}
-			martillazo();
-			verificarPasajeDeNivel();
-			moverArriba();
-			getGame().actualizar();
-			sacarLadrillos();
-			if (colisionar())
-				continue;
-			else {
-				getGame().felix.setPosX(2);
-				getGame().felix.setPosY(2);
-			}
-		}
+
 		try {
 			Thread.sleep(750);
 		} catch (InterruptedException e) {
@@ -214,28 +148,29 @@ public class Juego implements Runnable {
 	/**
 	 * ORDENA A FELIX A MOVERSE A LA IZQUIERDA SI SE PUEDE
 	 */
-	private static void moverIzquierda() {
+	public void moverIzquierda() {
 		getGame().felix.mover(DireccionFelix.IZQUIERDA);
+
 	}
 
 	/**
 	 * ORDENA A FELIX A MOVERSE A LA ARRIBA SI SE PUEDE
 	 */
-	private static void moverArriba() {
+	public void moverArriba() {
 		getGame().felix.mover(DireccionFelix.ARRIBA);
 	}
 
 	/**
 	 * ORDENA A FELIX A MOVERSE A LA DERECHA SI SE PUEDE
 	 */
-	private static void moverDerecha() {
+	public void moverDerecha() {
 		getGame().felix.mover(DireccionFelix.DERECHA);
 	}
 
 	/**
 	 * ORDENA A FELIX A MOVERSE A LA ABAJO SI SE PUEDE
 	 */
-	private static void moverAbajo() {
+	public void moverAbajo() {
 		getGame().felix.mover(DireccionFelix.ABAJO);
 	}
 
