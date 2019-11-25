@@ -1,0 +1,75 @@
+UML
+
+- Corrigieron varios aspectos del UML, pero faltan todas las cardinalidades y nombres de las relaciones. Ademas mezclan diferentes tipos de flecha para representar lo mismo. Por otro lado, no hacia falta incluir en el UML las ventanas.
+
+
+POO
+
+-Mejoraron varios aspectos, entre ellos el uso de la jerarquia Individuo. Pero incluyeron a Maceta y Moldura como subclases de Posicion, cuando son cosas diferentes. El hecho de que tengan un atributo de posicion no las convierte en una subclase de Posicion.
+
+
+Documentacion
+
+- No hubo correcciones.
+
+			
+
+Sintaxis Java
+
+- Corrigieron y mejoraron mucho las cuestiones de Java.
+
+
+Funcionamiento
+
+- Mejoraron la implementacion del reapararVentana pero siempre da puntaje.
+
+
+MODULO II 40/100
+
+SWING
+
+- El manejo de ventanas y frames esta bien,aunque todavia faltan pantallas.
+
+
+Model-View (Opcional Controller)
+
+- La vista debe reflejar el estado del modelo, el controlador no debe repetir las acciones en la vista y en el modelo, como hacen al mover a Felix o al dar martillazos. Tambien repiten cosas similares con el resto de los objetos.
+
+- Deberian separar el manejo del TimerTask de la vista, dado que pertenece al Controller eso. A su vez, no deberia encargarse de cuestiones internas de la vista, solamente deberia indicarle que se refresque. Lo mismo con el modelo, deberia indicarle que se ejecute una vez.
+
+- Tambien deberian separar el manejo del teclado. Ademas tuve que modificar el codigo para que tomara los eventos del teclado.
+
+
+Excepciones
+
+- No hay excepciones propias.	
+
+					
+
+10 / 15
+
+Threads.
+
+- No entiendo por que duermen el hilo cuando se mueven Ralph.
+
+
+Gráfica y funcionamiento gral. 
+
+- La grafica no funciona en el JAR, eso se debe a como abren los archivos de las imagenes.
+
+- Hay ventanas que no permiten algunos movimientos pero no se nota en los graficos.
+
+- Al reparar todas las ventanas no hizo el cambio de seccion.
+
+- Falta implementar parte de la grafica, como aclararon en el documento.
+
+- Falta implementar el top.
+
+- Falta la pantalla de reglas.
+
+
+JAVA. 
+
+- Deberian mejorar el codigo del teclado, tiene muchas cosas repetidas que se podrian reusar.
+
+- Tienen mucho warning de imports y cosasque no se usan mas.
