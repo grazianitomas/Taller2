@@ -1,0 +1,5 @@
+Hay veces que hay que apretar dos veces la barra para reparar, cosa que no pasa para moverse, tengo entendido que a otros grupos les pasó algo parecido.
+
+En algunas instancias no cambia de la primera sección a la segunda, pero si de la segunda a la tercera, lo que hace un bug gráfico. Con reiniciar el juego se soluciona, pero no tengo idea de porque se genera, tal vez algún error de leer datos.
+
+No se porque Ralph no toma ambos íconos al caminar, debería cambiar de ícono y no lo hace.

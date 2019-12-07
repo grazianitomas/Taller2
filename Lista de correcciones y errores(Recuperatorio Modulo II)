@@ -1,0 +1,15 @@
+Se completaron las pantallas faltantes.
+
+Se idealizó el MVC, separando las clases en su ambiente correspondiente y generando así independencia. 
+
+Sigue sin haber excepciones propias.
+
+Se implementaron hilos nuevos para el cambio de sección y pasaje de nivel. Falta implementar el movimiento de Ralph, ladrillos, y pájaros.
+
+Se corrigió como se adquirían las imágenes por lo que el JAR las toma.
+Las ventanas ya permiten el movimiento correcto.
+Cambia de sección.
+Falta el top.
+Se implementó la pantalla de reglas: el signo (?) rojo en el menú.
+
+El teclado se simplificó bastante. Se corrigió un error que no dejaba mover.
